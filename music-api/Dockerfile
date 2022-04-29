@@ -9,7 +9,7 @@ WORKDIR /app
 COPY /src /app/src
 
 # 将pom.xml文件，拷贝到工作目录下
-COPY music-api/pom.xml /app
+COPY /pom.xml /app
 
 # 执行代码编译命令
 RUN mvn -f /app/pom.xml clean package -Dmaven.test.skip=true -Dspring.profiles.active=test
