@@ -31,10 +31,10 @@ RUN apk add --update --no-cache openjdk8-jre-base \
 WORKDIR /app
 
 # 将构建产物jar包拷贝到运行时目录中
-COPY --from=build /app/target/music-api-0.0.1.jar .
+COPY --from=build /app/target/music-api-0.0.1-SNAPSHOT.jar .
 
 # 暴露端口
 EXPOSE 8080
 
 # 执行启动命令
-CMD ["java", "-jar", "/app/music-api-0.0.1.jar", "--spring.profiles.active=test"]
+CMD ["java", "-jar", "/app/music-api-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=test"]
