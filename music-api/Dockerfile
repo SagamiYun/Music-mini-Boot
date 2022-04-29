@@ -3,10 +3,10 @@
 FROM maven:3.6.0-jdk-8-slim as build
 
 # 指定构建过程中的工作目录
-WORKDIR music-api/app
+WORKDIR /app
 
 # 将src目录下所有文件，拷贝到工作目录中src目录下
-COPY music-api/src /app/src
+COPY /src /app/src
 
 # 将pom.xml文件，拷贝到工作目录下
 COPY music-api/pom.xml /app
@@ -28,13 +28,13 @@ RUN apk add --update --no-cache openjdk8-jre-base \
     && rm -f /var/cache/apk/*
 
 # 指定运行时的工作目录
-WORKDIR music-api/app
+WORKDIR /app
 
 # 将构建产物jar包拷贝到运行时目录中
-COPY --from=build music-api/app/target/music-api-0.0.1.jar .
+COPY --from=build /app/target/music-api-0.0.1.jar .
 
 # 暴露端口
 EXPOSE 8080
 
 # 执行启动命令
-CMD ["java", "-jar", "music-api/app/music-api-0.0.1.jar", "--spring.profiles.active=test"]
+CMD ["java", "-jar", "/app/music-api-0.0.1.jar", "--spring.profiles.active=test"]
