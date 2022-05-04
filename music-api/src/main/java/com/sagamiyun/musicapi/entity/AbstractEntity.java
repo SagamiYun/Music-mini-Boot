@@ -23,6 +23,6 @@ public abstract class AbstractEntity {
     private Date createdTime;
 
     @UpdateTimestamp
-    private Date uploadTime;
+    private Date updatedTime;
 
 }
