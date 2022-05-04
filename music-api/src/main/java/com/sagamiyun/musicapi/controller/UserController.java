@@ -1,7 +1,6 @@
 package com.sagamiyun.musicapi.controller;
 
 
-import com.sagamiyun.musicapi.entity.User;
 import com.sagamiyun.musicapi.mapper.UserMapper;
 import com.sagamiyun.musicapi.service.UserService;
 import com.sagamiyun.musicapi.vo.UserVo;
