@@ -23,7 +23,7 @@
         "checkInvalidKey": true,
         "checkSiteMap": true,
         "uploadWithSourceMap": true,
-        "compileHotReLoad": true,
+        "compileHotReLoad": false,
         "lazyloadPlaceholderEnable": false,
         "useMultiFrameRuntime": true,
         "useApiHook": true,
@@ -55,5 +55,6 @@
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
     "appid": "wx314b081dd25c8385",
+    "libVersion": "2.19.6",
     "condition": {}
 }
