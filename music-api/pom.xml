@@ -88,6 +88,12 @@
             <version>5.7.3</version>
         </dependency>
 
+        <!--CRUD模块-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>2.6.2</version>
+        </dependency>
     </dependencies>
 
 
