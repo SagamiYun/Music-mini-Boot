@@ -10,19 +10,18 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
-@Data
 @MappedSuperclass
+@Data
 public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue(generator = "ksuid")
-    @GenericGenerator(name="ksuid",strategy = "com.sagamiyun.musicapi.utils.KsuidIdentifierGenerator")
-    private String ID;
+    @GenericGenerator(name = "ksuid", strategy = "com.sagamiyun.musicapi.utils.KsuidIdentifierGenerator")
+    private String id;
 
     @CreationTimestamp
     private Date createdTime;
 
     @UpdateTimestamp
     private Date updatedTime;
-
 }
