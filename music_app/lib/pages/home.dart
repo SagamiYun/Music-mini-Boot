@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:music_app/widget/header.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -6,14 +8,14 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: ElevatedButton(
-            onPressed: () {
+        body: Column(
+          children: <Widget>[
+            Header(),
+            ElevatedButton(onPressed: () {
               Navigator.pushNamed(context, '/login');
-            },
-            child: const Text("登录"),
-          )
-      ),
+            }, child: Text("登录"),)
+          ],
+        )
     );
   }
 }
