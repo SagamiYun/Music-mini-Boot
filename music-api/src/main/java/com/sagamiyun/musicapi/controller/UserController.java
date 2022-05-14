@@ -5,22 +5,26 @@ import com.sagamiyun.musicapi.dto.UserUpdateRequest;
 import com.sagamiyun.musicapi.mapper.UserMapper;
 import com.sagamiyun.musicapi.service.UserService;
 import com.sagamiyun.musicapi.vo.UserVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
+@Api(tags = "用户", value = "用户接口功能")
 public class UserController {
     UserService userService;
 
     UserMapper userMapper;
 
     @GetMapping("/")
+    @ApiOperation("用户检索")
     Page<UserVo> search(@PageableDefault(sort = {"createdTime"}, direction = Sort.Direction.ASC) Pageable pageable) {
         return userService.search(pageable).map(userMapper::toVo);
     }
