@@ -1,7 +1,6 @@
 package com.sagamiyun.musicapi.config;
 
 import com.sagamiyun.musicapi.exception.RestAuthenticationEntryPoint;
-import com.sagamiyun.musicapi.filter.JwtAuthenticationFilter;
 import com.sagamiyun.musicapi.filter.JwtAuthorizationFilter;
 import com.sagamiyun.musicapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final long EXPIRATION_TIME = 864000000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
-    public static final String SIGN_UP_URL = "/users/";
 
     UserService userService;
 
@@ -30,9 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
+                .antMatchers(
+                        "/swagger**/**", "/webjars/**", "/v3/**", "/doc.html", "/tokens**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager()))
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
