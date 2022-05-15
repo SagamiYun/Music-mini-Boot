@@ -23,13 +23,13 @@ public class UserController {
 
     UserMapper userMapper;
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation("用户检索")
     Page<UserVo> search(@PageableDefault(sort = {"createdTime"}, direction = Sort.Direction.ASC) Pageable pageable) {
         return userService.search(pageable).map(userMapper::toVo);
     }
 
-    @PostMapping("/")
+    @PostMapping
     UserVo create(@Validated @RequestBody UserCreateRequest userCreateRequest) {
         return userMapper.toVo(userService.create(userCreateRequest));
     }
@@ -48,6 +48,11 @@ public class UserController {
     @DeleteMapping("/{id}")
     void delete(@PathVariable String id) {
         userService.delete(id);
+    }
+
+    @GetMapping("/me")
+    UserVo me() {
+        return userMapper.toVo(userService.getCurrentUser());
     }
 
     @Autowired

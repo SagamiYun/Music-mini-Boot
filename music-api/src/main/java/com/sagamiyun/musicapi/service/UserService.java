@@ -1,5 +1,6 @@
 package com.sagamiyun.musicapi.service;
 
+import com.sagamiyun.musicapi.dto.TokenCreateRequest;
 import com.sagamiyun.musicapi.dto.UserCreateRequest;
 import com.sagamiyun.musicapi.dto.UserDto;
 import com.sagamiyun.musicapi.dto.UserUpdateRequest;
@@ -7,8 +8,6 @@ import com.sagamiyun.musicapi.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.util.List;
 
 public interface UserService extends UserDetailsService {
 
@@ -24,4 +23,8 @@ public interface UserService extends UserDetailsService {
     void delete(String id);
 
     Page<UserDto> search(Pageable pageable);
+
+    String createToken(TokenCreateRequest tokenCreateRequest);
+
+    UserDto getCurrentUser();
 }
