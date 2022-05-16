@@ -1,9 +1,9 @@
 <template>
   <div class="page">
     <div class="q-mt-md q-mb-md">
-      <q-btn color="primary" label="添加用户" />
+      <q-btn color="primary" label="添加用户"/>
     </div>
-    <q-table :rows="data" :columns="columns" row-key="name" hide-pagination />
+    <q-table :rows="data" :columns="columns" row-key="name" hide-pagination/>
     <div class="row justify-center q-mt-md">
       <q-pagination
           v-model="pagination.page"
@@ -16,8 +16,9 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
-import { search } from '../../api/user.js';
+import {computed, ref} from 'vue';
+import {search} from '../../api/user.js';
+
 export default {
   name: 'Index',
   setup() {
@@ -37,12 +38,11 @@ export default {
     ];
     const data = ref([]);
     const fetchData = () => {
-      search({ page: 0 }).then(res => {
-        console.log(res.data);
-        data.value = data.value.concat(res.data.content);
-        pagination.value.page = res.data.number + 1;
-        pagination.value.rowsPerPage = res.data.size;
-        pagination.value.rowsNumber = res.data.totalElements;
+      search({page: 0}).then(res => {
+        data.value = data.value.concat(res.content);
+        pagination.value.page = res.number + 1;
+        pagination.value.rowsPerPage = res.size;
+        pagination.value.rowsNumber = res.totalElements;
       });
     };
     fetchData();
