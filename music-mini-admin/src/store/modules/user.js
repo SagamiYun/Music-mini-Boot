@@ -9,7 +9,9 @@ const state = () => ({
 
 const getters = {
     nicknameFirstWord: state => {
-        return state.currentUser ? state.currentUser.nickname.slice(0, 1) : '';
+        return state.currentUser && state.currentUser.nickname
+            ? state.currentUser.nickname.slice(0, 1)
+            : '';
     }
 };
 
