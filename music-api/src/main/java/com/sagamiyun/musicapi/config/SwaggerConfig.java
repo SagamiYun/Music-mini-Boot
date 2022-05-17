@@ -25,7 +25,7 @@ public class SwaggerConfig {
                 .securityContexts(Collections.singletonList(securityContext()))
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sagamiyun.musicapi.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.sagamiyun.musicapi"))
                 .paths(PathSelectors.any())
                 .build();
     }
