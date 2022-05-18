@@ -21,6 +21,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: primary,
         padding: const EdgeInsets.only(top: 126),
