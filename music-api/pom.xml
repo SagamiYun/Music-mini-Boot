@@ -71,7 +71,6 @@
             <version>5.2.1</version>
         </dependency>
 
-
         <!--JWT迭代模块-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -100,6 +99,13 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
+        </dependency>
+
+        
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>4.2.0</version>
         </dependency>
     </dependencies>
 
