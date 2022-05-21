@@ -1,4 +1,4 @@
-// components/musician-banner/index.ts
+// components/scrollable-section/index.ts
 Component({
     /**
      * 组件的属性列表
@@ -7,13 +7,13 @@ Component({
       styleIsolation: 'isolated'
     },
     properties: {
-      title: {
-        type: String,
-        default: ''
+      itemWidth: {
+        type: Number,
+        value: 290
       },
-      list: {
-        type: Array,
-        default: null
+      itemCount: {
+        type: Number,
+        value: 0
       }
     },
   
@@ -28,8 +28,5 @@ Component({
      * 组件的方法列表
      */
     methods: {
-      onClick(e: any) {
-        console.log(e)
-      }
     }
   })
