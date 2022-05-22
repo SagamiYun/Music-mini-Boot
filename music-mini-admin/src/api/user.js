@@ -1,4 +1,4 @@
-import {get} from './request';
+import {get, post} from './request';
 
 export const search = paging => {
     return get('/users/', {params: paging});
