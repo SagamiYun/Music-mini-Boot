@@ -26,7 +26,7 @@ class CategoryBanner extends StatelessWidget {
               title: '嘻哈',
               description: '1.4万播放量',
               image: 'assets/images/banner.png',
-              onPress: () {})
+              onPress: () { Navigator.pushNamed(context, '/playlist/detail'); })
         ],
       ),
     );
