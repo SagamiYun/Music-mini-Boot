@@ -3,6 +3,7 @@ package com.sagamiyun.musicapi.handler;
 import com.sagamiyun.musicapi.exception.BizException;
 import com.sagamiyun.musicapi.exception.ErrorResponse;
 import com.sagamiyun.musicapi.exception.ExceptionType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = BizException.class)

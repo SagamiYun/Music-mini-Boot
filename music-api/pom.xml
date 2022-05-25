@@ -108,7 +108,7 @@
             <version>4.2.0</version>
         </dependency>
 
-        <!--微信云SDK-->
+        <!--云存储SDK-->
         <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>cos-sts_api</artifactId>
