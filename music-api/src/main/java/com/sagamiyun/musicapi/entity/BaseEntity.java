@@ -12,7 +12,7 @@ import java.util.Date;
 
 @MappedSuperclass
 @Data
-public abstract class AbstractEntity {
+public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(generator = "ksuid")
