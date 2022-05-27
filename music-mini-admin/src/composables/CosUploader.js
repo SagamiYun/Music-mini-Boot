@@ -1,6 +1,6 @@
 import COS from 'cos-js-sdk-v5';
 import {createUploaderComponent} from 'quasar';
-import {initUpload} from '../api/file.js';
+import {finishUpload, initUpload} from '../api/file.js';
 import {ref} from 'vue';
 import md5 from 'md5';
 
@@ -16,9 +16,7 @@ export default createUploaderComponent({
         // ...your custom props
     },
 
-    emits: [
-        // ...your custom events name list
-    ],
+    emits: ['file-uploaded'],
 
     injectPlugin({props, emit, helpers}) {
         const initCosClient = () => {
@@ -56,7 +54,7 @@ export default createUploaderComponent({
         // We're working on uploading files
         const isUploading = ref(false);
         const isBusy = ref(false);
-        const uploadedFiles = ref(new Set());
+
         const taskId = ref('');
         const abort = e => {
             console.log(e);
@@ -65,11 +63,12 @@ export default createUploaderComponent({
         const upload = () => {
             // cos 上传
             uploadFiles();
-            isUploading.value = false;
+            isUploading.value = true;
         };
 
         const uploadFiles = () => {
-            let file = helpers.queuedFiles.value[0];
+            const file = helpers.queuedFiles.value[0];
+
             cos.uploadFile({
                 Bucket: bucket.value,
                 Region: region.value,
@@ -89,18 +88,21 @@ export default createUploaderComponent({
                     helpers.updateFileStatus(file, 'uploading', progressData.loaded);
                 },
                 onFileFinish: () => {
-                    helpers.updateFileStatus(file, 'uploaded', file.size);
-                    helpers.uploadedFiles.value += 1;
-                    helpers.uploadedSize.value += file.size;
-                    uploadedFiles.value.add(file);
+                    finishUpload(fileId.value).then(uploadedFile => {
+                        helpers.updateFileStatus(file, 'uploaded', file.size);
+                        helpers.uploadedFiles.value = [file];
+                        helpers.uploadedSize.value = file.size;
+                        helpers.queuedFiles.value = [];
+                        isUploading.value = false;
+                        helpers.updateFileStatus(file, 'uploaded');
+                        emit('file-uploaded', uploadedFile);
+                    });
                 }
             });
         };
 
         return {
             isUploading,
-            isBusy,
-
             abort,
             upload
         };
