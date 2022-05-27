@@ -24,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final long EXPIRATION_TIME = 864000000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
+    public static final String CREATE_TOKEN_URL = "/tokens";
+    public static final String SITE_SETTING_URL = "/settings/site";
 
     UserService userService;
 
@@ -34,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(
-                        "/swagger**/**", "/webjars/**", "/v3/**", "/doc.html", "/tokens**", "/weixin/**").permitAll()
+                        "/swagger**/**", "/webjars/**", "/v3/**", "/doc.html", "/weixin/**", CREATE_TOKEN_URL, SITE_SETTING_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService))
