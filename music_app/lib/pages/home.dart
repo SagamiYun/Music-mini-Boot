@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/pages/home/header.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:music_app/widget/header.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -7,7 +8,6 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         body: Column(
           children: <Widget>[
             Header(),

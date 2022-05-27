@@ -1,5 +1,9 @@
 package com.sagamiyun.musicapi.service.impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.sagamiyun.musicapi.config.SecurityConfig;
+import com.sagamiyun.musicapi.dto.TokenCreateRequest;
 import com.sagamiyun.musicapi.dto.UserCreateRequest;
 import com.sagamiyun.musicapi.dto.UserDto;
 import com.sagamiyun.musicapi.dto.UserUpdateRequest;
@@ -15,10 +19,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
     UserRepository repository;
 
@@ -37,33 +42,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto get(String id) {
-        // Todo: 重构
-        Optional<User> user = repository.findById(id);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        return mapper.toDto(user.get());
+        return mapper.toDto(getById(id));
     }
 
     @Override
     public UserDto update(String id, UserUpdateRequest userUpdateRequest) {
-        // Todo: 重构
+        return mapper.toDto(repository.save(mapper.updateEntity(getById(id), userUpdateRequest)));
+    }
+
+    private User getById(String id) {
         Optional<User> user = repository.findById(id);
         if (!user.isPresent()) {
             throw new BizException(ExceptionType.USER_NOT_FOUND);
         }
-        return mapper.toDto(repository.save(mapper.updateEntity(user.get(), userUpdateRequest)));
+        return user.get();
     }
 
     @Override
     public void delete(String id) {
-
-        // Todo: 重构
-        Optional<User> user = repository.findById(id);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        repository.delete(user.get());
+        repository.delete(getById(id));
     }
 
     @Override
@@ -73,11 +70,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadUserByUsername(String username) {
-        Optional<User> user = repository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
+        return super.loadUserByUsername(username);
+    }
+
+    @Override
+    public String createToken(TokenCreateRequest tokenCreateRequest) {
+        User user = loadUserByUsername(tokenCreateRequest.getUsername());
+        if (!passwordEncoder.matches(tokenCreateRequest.getPassword(), user.getPassword())) {
+            throw new BizException(ExceptionType.USER_PASSWORD_NOT_MATCH);
         }
-        return user.get();
+        if (!user.isEnabled()) {
+            throw new BizException(ExceptionType.USER_NOT_ENABLED);
+        }
+
+        if (!user.isAccountNonLocked()) {
+            throw new BizException(ExceptionType.USER_LOCKED);
+        }
+
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConfig.EXPIRATION_TIME))
+                .sign(Algorithm.HMAC512(SecurityConfig.SECRET.getBytes()));
+    }
+
+    @Override
+    public UserDto getCurrentUser() {
+        return mapper.toDto(super.getCurrentUserEntity());
     }
 
     private void checkUserName(String username) {

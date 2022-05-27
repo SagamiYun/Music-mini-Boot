@@ -1,9 +1,10 @@
 import axios from "axios";
 import store from '../store';
-import { getToken } from '../utils/auth.js';
+import notify from "../utils/notify.js";
 
 
 const baseURL = import.meta.env.VITE_API_HOST
+const tokenPrefix = 'Bearer ';
 
 export const instance = axios.create({
     baseURL
@@ -14,7 +15,7 @@ instance.interceptors.request.use(
         // do something before request is sent
 
         if (store.state.user.token) {
-            config.headers['Authorization'] = store.state.user.token;
+            config.headers['Authorization'] = tokenPrefix + store.state.user.token;
         }
         return config;
     },
@@ -25,6 +26,33 @@ instance.interceptors.request.use(
     }
 );
 
-const {get,post,put} = instance
+instance.interceptors.response.use(
+    response => {
+        if (response.data.code) {
+            handleErrorResponse(response);
+            return Promise.reject(response.data);
+        }
+        return response.data;
+    },
+    error => {
+        handleErrorResponse(error.response);
+        return Promise.reject(error);
+    }
+);
 
-export {get,post,put}
+const handleErrorResponse = response => {
+    if (response.status === 401 || response.status === 403) {
+        store.dispatch('user/logout').then(() => window.location.reload());
+    }
+    if (response.data instanceof Array) {
+        response.data.forEach(item => {
+            notify.error(item.message);
+        });
+    } else {
+        notify.error(response.data.message);
+    }
+};
+
+const {get, post, put} = instance
+
+export {get, post, put}

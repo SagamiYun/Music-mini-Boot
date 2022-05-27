@@ -4,8 +4,23 @@ Page({
     /**
      * 页面的初始数据
      */
-    data: {
-  
+    data: {  categoryBannerList: [
+      {
+        title: '流行音乐',
+        desc: '1.5万播放',
+        image: '../../images/hip-hop.png'
+      },
+      {
+        title: '流行音乐',
+        desc: '1.5万播放',
+        image: '../../images/hip-hop.png'
+      },
+      {
+        title: '流行音乐',
+        desc: '1.5万播放',
+        image: '../../images/hip-hop.png'
+      }
+    ]
     },
   
     /**
