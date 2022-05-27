@@ -71,7 +71,6 @@
             <version>5.2.1</version>
         </dependency>
 
-
         <!--JWT迭代模块-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -100,6 +99,20 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
+        </dependency>
+
+        <!--OAuth 2.0 微信接口对接-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+        <!--云存储SDK-->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos-sts_api</artifactId>
+            <version>3.1.0</version>
         </dependency>
     </dependencies>
 

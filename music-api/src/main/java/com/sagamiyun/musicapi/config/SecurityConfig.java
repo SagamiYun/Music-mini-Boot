@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(
-                        "/swagger**/**", "/webjars/**", "/v3/**", "/doc.html", "/tokens**").permitAll()
+                        "/swagger**/**", "/webjars/**", "/v3/**", "/doc.html", "/tokens**", "/weixin/**", "/playlists/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService))
