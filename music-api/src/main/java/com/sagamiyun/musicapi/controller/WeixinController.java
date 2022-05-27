@@ -24,7 +24,7 @@ public class WeixinController {
         );
     }
 
-
+  
     @Autowired
     public void setWxMpService(WxMpService wxMpService) {
         this.wxMpService = wxMpService;
