@@ -3,6 +3,7 @@ import {createUploaderComponent} from 'quasar';
 import {finishUpload, initUpload} from '../api/file.js';
 import {ref} from 'vue';
 import md5 from 'md5';
+import {useStore} from "vuex";
 
 const bucket = ref(null);
 const region = ref(null);
@@ -19,6 +20,7 @@ export default createUploaderComponent({
     emits: ['file-uploaded'],
 
     injectPlugin({props, emit, helpers}) {
+        const fileId = ref(null);
         const initCosClient = () => {
             return new COS({
                 getAuthorization: (options, callback) => {
@@ -30,15 +32,13 @@ export default createUploaderComponent({
                         ext: file.name.substring(file.name.lastIndexOf('.'))
                     };
                     initUpload(uploadFile).then(res => {
-                        bucket.value = res.bucket;
-                        region.value = res.region;
-                        console.log(res.startTime / 1000);
+                        fileId.value = res.fileId;
                         callback({
                             TmpSecretId: res.secretId,
                             TmpSecretKey: res.secretKey,
                             SecurityToken: res.sessionToken,
-                            StartTime: parseInt(res.startTime / 1000), // 时间戳，单位秒，如：1580000000
-                            ExpiredTime: parseInt(res.expiredTime / 1000),
+                            StartTime: res.startTime, // 时间戳，单位秒，如：1580000000
+                            ExpiredTime: res.expiredTime,
                             ScopeLimit: true // 细粒度控制权限需要设为 true，会限制密钥只在相同请求时重复使用
                         });
                     });
@@ -46,6 +46,9 @@ export default createUploaderComponent({
             });
         };
         const cos = initCosClient();
+        const store = useStore();
+        const bucket = store.getters['setting/bucket'];
+        const region = store.getters['setting/region'];
 
         // can call any other composables here
         // as this function will run in the component's setup()
@@ -70,9 +73,9 @@ export default createUploaderComponent({
             const file = helpers.queuedFiles.value[0];
 
             cos.uploadFile({
-                Bucket: bucket.value,
-                Region: region.value,
-                Key: file.key,
+                Bucket: bucket,
+                Region: region,
+                Key: md5(file.__key),
                 Body: file,
                 SliceSize: 1024 * 1024 * 10,
 
