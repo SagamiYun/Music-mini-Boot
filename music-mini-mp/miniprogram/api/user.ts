@@ -7,5 +7,5 @@ type LoginRequest = {
 
 
 export const login = (loginRequest: LoginRequest) => {
-  return post('/login', loginRequest);
+  return post('/users', loginRequest);
 }
