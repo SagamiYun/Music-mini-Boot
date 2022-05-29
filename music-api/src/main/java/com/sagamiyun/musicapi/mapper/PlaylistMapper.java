@@ -5,7 +5,7 @@ import com.sagamiyun.musicapi.entity.Playlist;
 import com.sagamiyun.musicapi.vo.PlaylistVo;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = MusicMapper.class)
 public interface PlaylistMapper {
     PlaylistDto toDto(Playlist playlist);
 
